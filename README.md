@@ -65,7 +65,7 @@ component, the changes do not break their interaction with the others.
 
 Given the difference in the purpose of unit vs. integration tests, you might
 expect there to be substantial differences are in how they are written. However,
-because we're following Testing Library's [guiding-principles][guiding-principles]
+because we're following Testing Library's [guiding principles][guiding-principles]
 in testing our React apps, the good news is there really _isn't_ much
 difference. In both cases, we write tests that verify the presence of elements
 in the DOM, or the effects of user events by checking the state of the DOM
