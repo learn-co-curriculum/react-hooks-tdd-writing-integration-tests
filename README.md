@@ -26,7 +26,11 @@ a rough outline of the types of testing you might use to test your application:
 
 So far, the tests we've constructed using Jest have fallen into the **Unit**
 category - testing of self-contained units of code that don't have any
-dependencies outside themselves.
+dependencies outside themselves. But, of course, so far the applications we've
+looked at have been fairly simple. As our applications get more complex, it will
+become necessary to separate out the functionality into multiple components to
+keep our code organized. When this happens, unit testing alone will no longer
+meet our needs.
 
 In this lesson, we'll talk about **Integration** testing, which looks at the
 _relationship_ between different units of code and how they interact. We'll
@@ -41,10 +45,12 @@ incorporates all of them — are interacting as expected. Although unit testing 
 important, you can't be confident that your application _as a whole_ is behaving
 as expected if that's all you do.
 
-Kent C. Dodds, the creator of Testing Library, explains it this way: "while
-having some unit tests to verify these pieces work in isolation isn't a bad
-thing, _it doesn't do you any good if you don't **also** verify that they work
-together properly_. ([source])
+Kent C. Dodds, the creator of [Testing Library][testing-library], explains it
+this way:
+
+> while having some unit tests to verify these pieces work in isolation isn't a
+> bad thing, _it doesn't do you any good if you don't **also** verify that they
+> work together properly_. ([source])
 
 Say, for example, that we have an application that includes a login flow with
 separate components for the login screen, the user's home page, and the logout
@@ -60,10 +66,10 @@ component, the changes do not break their interaction with the others.
 Given the difference in the purpose of unit vs. integration tests, you might
 expect there to be substantial differences are in how they are written. However,
 because we're following Testing Library's [guidingprinciples][guiding-principles]
-in testing our React apps, there really _isn't_ much difference. In both cases,
-we write tests that verify the presence of elements in the DOM, or the effects
-of user events by checking the state of the DOM before and after the event
-occurs.
+in testing our React apps, the good news is there really _isn't_ much
+difference. In both cases, we write tests that verify the presence of elements
+in the DOM, or the effects of user events by checking the state of the DOM
+before and after the event occurs.
 
 From the user's perspective, it doesn't matter whether all the functionality is
 coded within one component or information is passed between components as props.
@@ -71,17 +77,17 @@ In our tests, therefore, the guiding principles dictate that rather than
 focusing on implementation details — _how_ the code is implemented — we should
 instead focus on the end result in the DOM.
 
-One result of this is that including integration tests will likely reduce the
-number of unit tests you need. Returning to our login flow example, we might
-write on or more integration tests to verify that the user is taken to their
-home page when they log in. To do this, we would verify that one or more
-elements are present in the DOM after the user clicks the "Log In" button. If
-this test passes, then it is unnecessary to separately check for the presence of
-those elements using unit testing.
+One nice side effect of this is that including integration tests will likely
+reduce the number of unit tests you need. Returning to our login flow example,
+we might write integration tests to verify that the user is taken to their home
+page when they log in. To do this, we would verify that one or more elements are
+present in the DOM after the user clicks the "Log In" button. If this test
+passes, then it is unnecessary to separately check for the presence of those
+elements using unit testing.
 
-Finally, integration tests more closely resemble the way our software is used
-than unit tests do (which is our goal, according to the guiding principles). As
-a result, they give you more confidence that your app is working as you intend.
+Integration tests more closely resemble the way our software is used than unit
+tests do — which is our goal, according to the guiding principles. As a result,
+they give you more confidence that your app is working as you intend.
 
 ## My To-Dos App
 
@@ -125,3 +131,4 @@ the learning goals.
 
 [guiding-principles]: https://testing-library.com/docs/guiding-principles
 [source]: https://kentcdodds.com/blog/write-tests
+[testing-library]: https://testing-library.com/
