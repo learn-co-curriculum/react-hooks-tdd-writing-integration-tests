@@ -48,9 +48,11 @@ as expected if that's all you do.
 Kent C. Dodds, the creator of [Testing Library][testing-library], explains it
 this way:
 
-> while having some unit tests to verify these pieces work in isolation isn't a
+> While having some unit tests to verify these pieces work in isolation isn't a
 > bad thing, _it doesn't do you any good if you don't **also** verify that they
-> work together properly_. ([source])
+> work together properly_.
+>
+> — [Kent C. Dodds: Write tests. Not too many. Mostly integration.][source]
 
 Say, for example, that we have an application that includes a login flow with
 separate components for the login screen, the user's home page, and the logout
@@ -65,11 +67,11 @@ component, the changes do not break its interactions with the others.
 
 Given the difference in the purpose of unit vs. integration tests, you might
 expect there to be substantial differences are in how they are written. However,
-because we're following Testing Library's [guiding principles][guiding-principles]
-in testing our React apps, the good news is there really _isn't_ much
-difference. In both cases, we write tests that verify the presence of elements
-in the DOM, or the effects of user events by checking the state of the DOM
-before and after the event occurs.
+because we're following Testing Library's [guiding
+principles][guiding-principles] in testing our React apps, the good news is
+there really _isn't_ much difference. In both cases, we write tests that verify
+the presence of elements in the DOM, or the effects of user events by checking
+the state of the DOM before and after the event occurs.
 
 From the user's perspective, it doesn't matter whether all the functionality is
 coded within one component or information is passed between components as props.
@@ -92,20 +94,20 @@ they give you more confidence that your app is working as you intend.
 ## My To-Dos App
 
 Let's take a look at an example. We're going to write the tests and create the
-code for a to-do app. In building out our app, we will go through the
-usual process of tackling one piece at a time to:
+code for a to-do app. In building out our app, we will go through the usual
+process of tackling one piece at a time to:
 
-1. determine what we want to accomplish,
-2. write the test for that feature or functionality, and
-3. write the code to get the test passing
+1. Determine what we want to accomplish,
+2. Write the test for that feature or functionality, and
+3. Write the code to get the test passing
 
 We want the app to include a list of the to-dos, along with a button that allows
 users to add a new to-do.
 
 For the initial state, therefore, we want to verify that:
 
-- there are initially no to-dos listed
-- the page contains an "Add To-do" text field
+- There are initially no to-dos listed
+- The page contains an "Add To-do" text field
 
 For our user events, we want to verify that:
 
@@ -124,26 +126,28 @@ To start, our files look like this:
 
 ```jsx
 // App.js
-import TodoList from './TodoList';
+import TodoList from "./TodoList";
 
 function App() {
   return <TodoList />;
 }
 
 export default App;
+```
 
-
+```jsx
 // TodoList.js
 function TodoList() {
-  return <div></div>
-};
+  return <div></div>;
+}
 
 export default TodoList;
+```
 
-
+```jsx
 // Todo.js
 function Todo() {
-  return <li></li>
+  return <li></li>;
 }
 
 export default Todo;
@@ -163,13 +167,13 @@ the page, and `queryByRole("listitem")` to verify that there are initially no
 
 ```jsx
 // App.test.js
-import { render, screen } from '@testing-library/react';
-import App from '../App';
+import { render, screen } from "@testing-library/react";
+import App from "../App";
 
 describe("TodoList component initial status", () => {
   test("todo list is initially empty", () => {
     render(<App />);
-  
+
     expect(screen.getByRole("list")).toBeInTheDocument();
     expect(screen.queryByRole("listitem")).not.toBeInTheDocument();
   });
@@ -186,16 +190,15 @@ the `ul` element:
 ```jsx
 // TodoList.js
 function TodoList() {
-  return(
+  return (
     <div>
       <h1>My To-dos</h1>
       <ul></ul>
     </div>
-  )
-};
+  );
+}
 
 export default TodoList;
-
 ```
 
 Our next test will check for the presence of the `input` element. We want the
@@ -204,12 +207,12 @@ button. We can use [getByPlaceholderText][] and `getByRole`, respectively, to
 check for these:
 
 ```jsx
-  test("the page includes an 'Add To-do' input element that has a submit button", () => {
-    render(<App />);
-  
-    expect(screen.getByPlaceholderText( /add to-do/i )).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /submit/i })).toBeInTheDocument();
-  });
+test("the page includes an 'Add To-do' input element that has a submit button", () => {
+  render(<App />);
+
+  expect(screen.getByPlaceholderText(/add to-do/i)).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: /submit/i })).toBeInTheDocument();
+});
 ```
 
 Then add the code to get this test passing:
@@ -222,18 +225,14 @@ function TodoList() {
       <h1>My To-dos</h1>
       <ul></ul>
       <form>
-        <input 
-          type="text" 
-          placeholder="Add to-do"
-        />
-        <input type="submit"/>
+        <input type="text" placeholder="Add to-do" />
+        <input type="submit" />
       </form>
     </div>
-  )
-};
+  );
+}
 
 export default TodoList;
-
 ```
 
 We've now written the tests for the initial state of `TodoList` and the code to
@@ -247,9 +246,9 @@ Since we'll be simulating user events for this test, we'll first need to import
 
 ```jsx
 // App.test.js
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import App from '../App';
+import App from "../App";
 ```
 
 Then we'll add our next test:
@@ -259,9 +258,9 @@ describe("TodoList component user events", () => {
   test("when a new to-do is submitted it appears in the list of to-dos", () => {
     render(<App />);
 
-    const inputField = screen.getByPlaceholderText( /add to-do/i );
+    const inputField = screen.getByPlaceholderText(/add to-do/i);
     const submitButton = screen.getByRole("button", { name: /submit/i });
-    
+
     userEvent.type(inputField, "take out the trash");
     userEvent.click(submitButton);
     userEvent.type(inputField, "walk the dog");
@@ -286,15 +285,15 @@ changes to `TodoList`.
 **1.** Import `useState` and the `Todo` component:
 
 ```jsx
-import { useState } from 'react';
-import Todo from './Todo';
+import { useState } from "react";
+import Todo from "./Todo";
 ```
 
 **2.** Create state variables to hold the to-do list and individual to-dos:
 
 ```jsx
-  const [todos, setTodos] = useState([]);
-  const [newTodo, setNewTodo] = useState("");
+const [todos, setTodos] = useState([]);
+const [newTodo, setNewTodo] = useState("");
 ```
 
 **3.** Create an `enterTodo` function to update an individual to-do value in
@@ -302,15 +301,15 @@ state as the user types it in, and an `addTodo` function to add the new to-do to
 the list when the user clicks the "Submit" button:
 
 ```jsx
-  const enterTodo = (e) => {
-    setNewTodo(e.target.value);
-  }
+const enterTodo = (e) => {
+  setNewTodo(e.target.value);
+};
 
-  const addTodo = (e) => {
-    e.preventDefault();
-    setTodos([...todos, { text: newTodo }]);
-    setNewTodo("");
-  };
+const addTodo = (e) => {
+  e.preventDefault();
+  setTodos([...todos, { text: newTodo }]);
+  setNewTodo("");
+};
 ```
 
 **4.** Inside the `ul` element, add the code to render the `Todo` component for
@@ -319,10 +318,7 @@ each to-do in the list:
 ```jsx
 <ul>
   {todos.map((todo) => (
-    <Todo
-      key={todo.text} 
-      todo={todo}
-    />
+    <Todo key={todo.text} todo={todo} />
   ))}
 </ul>
 ```
@@ -332,13 +328,13 @@ each to-do in the list:
 
 ```jsx
 <form onSubmit={addTodo}>
-  <input 
-    type="text" 
+  <input
+    type="text"
     placeholder="Add to-do"
-    onChange={enterTodo} 
-    value={newTodo} 
+    onChange={enterTodo}
+    value={newTodo}
   />
-  <input type="submit"/>
+  <input type="submit" />
 </form>
 ```
 
@@ -346,8 +342,8 @@ each to-do in the list:
 
 ```jsx
 // TodoList.js
-import { useState } from 'react';
-import Todo from './Todo';
+import { useState } from "react";
+import Todo from "./Todo";
 
 function TodoList() {
   const [todos, setTodos] = useState([]);
@@ -355,7 +351,7 @@ function TodoList() {
 
   const enterTodo = (e) => {
     setNewTodo(e.target.value);
-  }
+  };
 
   const addTodo = (e) => {
     e.preventDefault();
@@ -364,28 +360,25 @@ function TodoList() {
   };
 
   return (
-  <div>
-    <h1>My To-dos</h1>
-    <ul>
-      {todos.map((todo) => (
-        <Todo
-          key={todo.text} 
-          todo={todo}
+    <div>
+      <h1>My To-dos</h1>
+      <ul>
+        {todos.map((todo) => (
+          <Todo key={todo.text} todo={todo} />
+        ))}
+      </ul>
+      <form onSubmit={addTodo}>
+        <input
+          type="text"
+          placeholder="Add to-do"
+          onChange={enterTodo}
+          value={newTodo}
         />
-      ))}
-    </ul>
-    <form onSubmit={addTodo}>
-      <input 
-        type="text" 
-        placeholder="Add to-do"
-        onChange={enterTodo} 
-        value={newTodo} 
-      />
-      <input type="submit"/>
-    </form>
-  </div>
-  )
-};
+        <input type="submit" />
+      </form>
+    </div>
+  );
+}
 
 export default TodoList;
 ```
@@ -394,8 +387,8 @@ Then, inside `Todo.js`, we'll add the code to render individual to-dos:
 
 ```jsx
 // Todo.js
-function Todo({todo}) {
-  return <li>{todo.text}</li>
+function Todo({ todo }) {
+  return <li>{todo.text}</li>;
 }
 
 export default Todo;
@@ -406,11 +399,20 @@ With these changes, all three of our tests are passing!
 ## Conclusion
 
 In this lesson, you learned about the purpose of integration tests and how they
-differ from unit tests. In the next lesson, you'll get some hands-on practice
-writing integration tests using Jest and React Testing Library.
+differ from unit tests. The key difference is that integration tests verify the
+functionality of multiple parts of our application working together (in our
+case, multiple components being rendered by the `App` component).
+
+Integration tests are beneficial because they give us confidence that the
+application _as a whole_ is working correctly, and not just the individual
+pieces of it.
+
+In the next lesson, you'll get some hands-on practice writing integration tests
+using Jest and React Testing Library.
 
 ## Resources
 
+- [Kent C. Dodds: Write tests. Not too many. Mostly integration.][source]
 - [Testing Library: Queries][queries]
 - [Jest DOM - Custom Matchers][jest-dom]
 - [Testing Library: user-event][user-event]
@@ -426,4 +428,5 @@ writing integration tests using Jest and React Testing Library.
 [guiding-principles]: https://testing-library.com/docs/guiding-principles
 [source]: https://kentcdodds.com/blog/write-tests
 [testing-library]: https://testing-library.com/
-[getByPlaceholderText]: https://testing-library.com/docs/queries/byplaceholdertext/
+[getbyplaceholdertext]:
+  https://testing-library.com/docs/queries/byplaceholdertext/
