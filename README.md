@@ -178,7 +178,7 @@ describe("TodoList component initial status", () => {
 
 As expected, our first test is failing:
 
-![test-fail-1]()
+![failing test](https://curriculum-content.s3.amazonaws.com/react-hooks-tdd/writing-integration-tests/test-fail.png)
 
 Let's write the code to get it passing. We'll add a page heading in addition to
 the `ul` element:
