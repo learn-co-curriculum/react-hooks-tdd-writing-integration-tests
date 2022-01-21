@@ -412,6 +412,7 @@ using Jest and React Testing Library.
 
 ## Resources
 
+- [Kent C. Dodds: Write tests. Not too many. Mostly integration.][source]
 - [Testing Library: Queries][queries]
 - [Jest DOM - Custom Matchers][jest-dom]
 - [Testing Library: user-event][user-event]
