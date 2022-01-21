@@ -399,8 +399,16 @@ With these changes, all three of our tests are passing!
 ## Conclusion
 
 In this lesson, you learned about the purpose of integration tests and how they
-differ from unit tests. In the next lesson, you'll get some hands-on practice
-writing integration tests using Jest and React Testing Library.
+differ from unit tests. The key difference is that integration tests verify the
+functionality of multiple parts of our application working together (in our
+case, multiple components being rendered by the `App` component).
+
+Integration tests are beneficial because they give us confidence that the
+application _as a whole_ is working correctly, and not just the individual
+pieces of it.
+
+In the next lesson, you'll get some hands-on practice writing integration tests
+using Jest and React Testing Library.
 
 ## Resources
 
